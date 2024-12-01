@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * A shopping list belonging to a particular user.
  *
- * <p>This implementation is backed by a {@link ManagedListItemRepository}</p>
+ * <p>This implementation is backed by a {@link ManagedListItemRepository}.</p>
  */
 public class UserShoppingList implements ShoppingList {
 

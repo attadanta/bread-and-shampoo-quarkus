@@ -7,8 +7,11 @@ import java.util.Objects;
  */
 public class ListItem {
 
-    private final int id;
-    private final String item;
+    private int id;
+    private String item;
+
+    public ListItem() {
+    }
 
     public ListItem(int id, String itemName) {
         this.id = id;
@@ -21,6 +24,14 @@ public class ListItem {
 
     public String getItem() {
         return item;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public ListItem withItem(String item) {
