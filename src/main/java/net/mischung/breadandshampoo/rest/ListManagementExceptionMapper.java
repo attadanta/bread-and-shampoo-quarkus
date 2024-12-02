@@ -2,10 +2,12 @@ package net.mischung.breadandshampoo.rest;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import net.mischung.breadandshampoo.model.ListManagementException;
 import net.mischung.breadandshampoo.service.ItemDoesNotExistException;
 import net.mischung.breadandshampoo.service.WrongItemOwnerException;
 
+@Provider
 public class ListManagementExceptionMapper implements ExceptionMapper<ListManagementException> {
 
     @Override

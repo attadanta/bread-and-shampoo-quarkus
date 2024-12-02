@@ -146,14 +146,101 @@ public class ApplicationTest {
             .contentType(ContentType.JSON)
             .body(content)
         .when()
-                .put("/a/list/items/" + listItem.getId())
+            .put("/a/list/items/" + listItem.getId())
         .then()
             .statusCode(400);
+    }
+
+    @Test
+    void updateNonExistingItem() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{ \"item\": \"bread\" }")
+        .when()
+            .put("/a/list/items/1")
+        .then()
+            .statusCode(404);
+    }
+
+    @Test
+    void updateAnotherUsersItem() {
+        ListItem listItem = given()
+                .contentType(ContentType.JSON)
+                .body("{ \"item\": \"bread\" }")
+            .when()
+                .contentType(ContentType.JSON)
+                .post("/a/list")
+            .then()
+                .statusCode(200)
+                .extract()
+                .as(ListItem.class);
+
+        given()
+                .when().contentType(ContentType.JSON)
+                .body("{ \"item\": \"shampoo\" }")
+            .when()
+                .put("/b/list/items/" + listItem.getId())
+            .then()
+                .statusCode(404);
+    }
+
+    @Test
+    void deleteItem() {
+        ListItem listItem =
+                given()
+                    .contentType(ContentType.JSON)
+                    .body("{ \"item\": \"bread\" }")
+                .when()
+                    .post("/a/list")
+                .then()
+                    .statusCode(200)
+                    .extract()
+                    .as(ListItem.class);
+
+        given()
+            .when()
+                .delete("/a/list/items/" + listItem.getId())
+            .then()
+                .statusCode(204);
+
+        given()
+            .when()
+                .get("/a/list")
+            .then()
+                .statusCode(200)
+                .and()
+                .body("items.size()", is(0));
+    }
+
+    @Test
+    void deleteNonExistingItem() {
+        given()
+            .when()
+                .delete("/a/list/items/1")
+            .then()
+                .statusCode(404);
+    }
+
+    @Test
+    void deleteAnotherUsersItem() {
+        ListItem listItem =
+                given()
+                    .contentType(ContentType.JSON)
+                    .body("{ \"item\": \"bread\" }")
+                .when()
+                    .post("/a/list").then().statusCode(200)
+                    .extract()
+                    .as(ListItem.class);
+
+        given()
+            .when()
+                .delete("/b/list/items/" + listItem.getId())
+            .then()
+                .statusCode(404);
     }
 
     String longString() {
         RandomStringUtils insecure = RandomStringUtils.insecure();
         return insecure.next(666, true, false);
     }
-
 }
