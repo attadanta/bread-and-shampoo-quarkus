@@ -25,3 +25,9 @@ jobs:
 
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
+
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v5
+        if: success() || failure()
+        with:
+          report_paths: '**/target/surefire-reports/TEST-*.xml'
