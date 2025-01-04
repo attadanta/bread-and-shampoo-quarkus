@@ -21,8 +21,8 @@ public class InMemoryManagedListItemRepositoryTest {
     @Test
     public void insertItem() {
         InMemoryManagedListItemRepository repo = new InMemoryManagedListItemRepository(new AtomicInteger(), Collections.emptyMap());
-        Assertions.assertEquals(repo.insertItem("a", "bread"), new ManagedListItem(new ListItem(1, "bread"), "a", false));
-        Assertions.assertEquals(repo.insertItem("a", "shampoo"), new ManagedListItem(new ListItem(2, "shampoo"), "a", false));
+        Assertions.assertEquals(new ManagedListItem(new ListItem(1, "bread"), "a", false), repo.insertItem("a", "bread"));
+        Assertions.assertEquals(new ManagedListItem(new ListItem(2, "shampoo"), "a", false), repo.insertItem("a", "shampoo"));
         Assertions.assertEquals(2, repo.listUserItems("a").size());
     }
 
@@ -37,9 +37,9 @@ public class InMemoryManagedListItemRepositoryTest {
         InMemoryManagedListItemRepository repo = new InMemoryManagedListItemRepository(new AtomicInteger(), store);
         List<ManagedListItem> managedListItems = repo.listUserItems("a");
 
-        Assertions.assertEquals(managedListItems.size(), 2);
-        Assertions.assertEquals(managedListItems.get(0), new ManagedListItem(new ListItem(1, "bread"), "a", false));
-        Assertions.assertEquals(managedListItems.get(1), new ManagedListItem(new ListItem(4, "shampoo"), "a", false));
+        Assertions.assertEquals(2, managedListItems.size());
+        Assertions.assertEquals(new ManagedListItem(new ListItem(1, "bread"), "a", false), managedListItems.get(0));
+        Assertions.assertEquals(new ManagedListItem(new ListItem(4, "shampoo"), "a", false), managedListItems.get(1));
     }
 
     @Test
@@ -56,8 +56,8 @@ public class InMemoryManagedListItemRepositoryTest {
 
         List<ManagedListItem> managedListItems = repo.listUserItems("a");
 
-        Assertions.assertEquals(managedListItems.size(), 1);
-        Assertions.assertEquals(managedListItems.get(0), expectedItem);
+        Assertions.assertEquals(1, managedListItems.size());
+        Assertions.assertEquals(managedListItems.getFirst(), expectedItem);
     }
 
     @Test
@@ -92,8 +92,8 @@ public class InMemoryManagedListItemRepositoryTest {
 
         List<ManagedListItem> managedListItems = repo.listUserItems("a");
 
-        Assertions.assertEquals(managedListItems.size(), 1);
-        Assertions.assertEquals(managedListItems.get(0), new ManagedListItem(new ListItem(1, "bread"), "a", false));
+        Assertions.assertEquals(1, managedListItems.size());
+        Assertions.assertEquals(new ManagedListItem(new ListItem(1, "bread"), "a", false), managedListItems.getFirst());
     }
 
     @Test
